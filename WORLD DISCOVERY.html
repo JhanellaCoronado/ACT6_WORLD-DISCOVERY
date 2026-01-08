@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Discover Your World 🌍</title>
+
+<link rel="icon" href="https://edube.org/uploads/media/default/0001/04/web-favicon.png" type="image/png">
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(to right, #00c6ff, #0072ff);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    color: #fff;
+    text-align: center;
+}
+@keyframes gradientBG {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+}
+h1 {
+    font-family: 'Pacifico', cursive;
+    font-size: 3em;
+    margin-top: 20px;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+}
+p { font-size: 1.2em; margin: 15px 0 30px; color: #f0f0f0; }
+button {
+    background-color: #ffbb33;
+    color: #003366;
+    font-size: 1.2em;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+}
+img {
+    max-width: 1000px;
+    width: 100%;
+    border: 4px solid rgba(255,255,255,0.5);
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    margin-bottom: 50px;
+}
+</style>
+</head>
+<body>
+
+<h1>Discover Your World 🌍</h1>
+<p>Click the button to learn about the continent you're on and some famous geographical features.</p>
+
+<button id="discoverLocation">Discover Location</button>
+
+<img src="https://edube.org/uploads/media/default/0001/04/continents.jpg" usemap="#world-map" alt="World Map">
+
+<map name="world-map">
+    <!-- North America -->
+    <area alt="North America" title="North America" id="north-america" shape="poly"
+        coords="230,100, 400,100, 420,220, 400,280, 230,280, 220,200" href="javascript:void(0);">
+
+    <!-- South America -->
+    <area alt="South America" title="South America" id="south-america" shape="poly"
+        coords="330,280, 410,280, 420,400, 330,400" href="javascript:void(0);">
+
+    <!-- Europe -->
+    <area alt="Europe" title="Europe" id="europe" shape="poly"
+        coords="400,70, 450,65, 480,80, 500,120, 495,160, 470,180, 440,160, 420,130, 410,100" href="javascript:void(0);">
+
+    <!-- Africa -->
+    <area alt="Africa" title="Africa" id="africa" shape="poly"
+        coords="440,160, 500,160, 520,220, 520,300, 470,330, 440,300" href="javascript:void(0);">
+
+    <!-- Asia -->
+    <area alt="Asia" title="Asia" id="asia" shape="poly"
+        coords="530,90, 700,90, 720,150, 720,250, 680,260, 530,250" href="javascript:void(0);">
+
+    <!-- Australia and Oceania -->
+    <area alt="Australia and Oceania" title="Australia and Oceania" id="australia-and-oceania" shape="poly"
+        coords="750,300, 900,300, 920,380, 900,450, 750,450" href="javascript:void(0);">
+</map>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const continentInfo = {
+        'north-america': {
+            continent: 'North America',
+            river: 'Mississippi River',
+            mountain: 'Denali',
+            landmarks: 'Grand Canyon, Statue of Liberty, Niagara Falls'
+        },
+        'south-america': {
+            continent: 'South America',
+            river: 'Amazon River',
+            mountain: 'Aconcagua',
+            landmarks: 'Machu Picchu, Galapagos Islands'
+        },
+        'europe': {
+            continent: 'Europe',
+            river: 'Danube River',
+            mountain: 'Mont Blanc',
+            landmarks: 'Eiffel Tower, Colosseum, Acropolis of Athens'
+        },
+        'africa': {
+            continent: 'Africa',
+            river: 'Nile River',
+            mountain: 'Mount Kilimanjaro',
+            landmarks: 'Sphinx, Table Mountain'
+        },
+        'asia': {
+            continent: 'Asia',
+            river: 'Yangtze River',
+            mountain: 'Mount Everest',
+            landmarks: 'Great Wall of China, Petra'
+        },
+        'australia-and-oceania': {
+            continent: 'Australia and Oceania',
+            river: 'Murray River',
+            mountain: 'Mount Kosciuszko',
+            landmarks: 'Sydney Opera House, Great Barrier Reef, Uluru'
+        }
+    };
+
+    function displayContinentInfo(continentId) {
+        const info = continentInfo[continentId];
+        if (info) {
+            alert(`Continent: ${info.continent}\nRiver: ${info.river}\nMountain: ${info.mountain}\nLandmarks: ${info.landmarks}`);
+        } else {
+            alert('Information not available');
+        }
+    }
+
+    document.querySelectorAll('area').forEach(area => {
+        area.addEventListener('click', function() {
+            displayContinentInfo(this.id);
+        });
+    });
+
+    document.getElementById('discoverLocation').addEventListener('click', () => {
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition((position) => {
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+                let continentId;
+
+                if (lat > 35 && lon > -10 && lon < 40) continentId = 'europe';
+                else if (lat < 0 && lon > -80 && lon < -34) continentId = 'south-america';
+                else if (lat > 0 && lon > -130 && lon < -70) continentId = 'north-america';
+                else if (lat > 5 && lat < 60 && lon > 40 && lon < 180) continentId = 'asia';
+                else if (lat > -35 && lat < 35 && lon > 10 && lon < 50) continentId = 'africa';
+                else if (lat < -10 && lon > 110 && lon < 180) continentId = 'australia-and-oceania';
+                else { alert("Continent could not be determined."); return; }
+
+                displayContinentInfo(continentId);
+            }, (error) => { alert("Error obtaining geolocation: " + error.message); });
+        } else {
+            alert("Geolocation is not supported by your browser.");
+        }
+    });
+});
+</script>
+
+</body>
+</html>
